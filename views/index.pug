@@ -3,11 +3,20 @@ html
         title!= title
     body
         div
-            input.input
-        div
             button.excel excel
+
         div
-            button.tmp tmp
+            label 模板
+            textarea.template
+
+        div
+            label 邮箱
+            input.email
+            label 密码
+            input.password
+
+        div
+            button.template 提交模板
 
     script(src='/static/jquery/dist/jquery.js')
     script(src='/static/index.js')
