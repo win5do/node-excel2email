@@ -1,7 +1,10 @@
 let xlsx = require('node-xlsx').default;
 
-const excel = xlsx.parse(`${process.cwd()}/excel/test.xlsx`);
+class excel {
+    constructor (file) {
+        this.name = file.originalname;
+        this.data = xlsx.parse(file.buffer)[0].data;
+    }
+}
 
-console.log(excel[0].data);
-
-module.exports = excel[0].data;
+module.exports = excel;

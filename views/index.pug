@@ -1,22 +1,65 @@
 html
     head
+        link(rel='stylesheet' href='/static/materialize-css/dist/css/materialize.min.css')
+        link(rel='stylesheet' href='/static/style.css')
         title!= title
     body
-        div
-            button.excel excel
+        .container.p-padding-tb
+            .row
+                .col.s12
+                    .label 上传excel文件
+            .row
+                .col.s12
+                    .file-field.input-field
+                        .btn
+                            span 选择文件
+                            input(type='file' name='excel' id='excel')
+                        .file-path-wrapper
+                            input.file-path.validate(type='text' placeholder='点击上传excel文件')
+            .row
+                .col.s12
+                    .label 创建邮件模板
+            .row
+                .input-field.col.s12
+                    input#title.validate(type="text")
+                    label(for='title') 邮件主题
+            .row
+                .input-field.col.s12
+                    textarea#content.materialize-textarea
+                    label(for='content') 邮件内容模板
+            .row
+                .col.s12.align-right
+                    a.waves-effect.waves-light.btn-large.preview-btn 预览
+            // 隐藏区域 预览后显示
+            .hidden-div
+                .row
+                    .col.s12
+                        .label 邮件预览
+                .row
+                    .col.s12
+                        .preview-content
+                .row
+                    .col.s12
+                        .label 填写发件邮箱信息
+                .row
+                    .input-field.col.s6
+                        input#email.validate(type="text")
+                        label(for='email') 邮箱
+                    .input-field.col.s6
+                        input#pass.validate(type="text")
+                        label(for='pass') 密码
+                .row
+                    .input-field.col.s6
+                        input#host.validate(type="text")
+                        label(for='host') smtp地址
+                    .input-field.col.s6
+                        input#port.validate(type="text")
+                        label(for='port') 端口
+                .row
+                    .col.s12
+                        .align-right
+                            a.waves-effect.waves-light.btn-large.send-email 确认发送
 
-        div
-            label 模板
-            textarea.template
-
-        div
-            label 邮箱
-            input.email
-            label 密码
-            input.password
-
-        div
-            button.template 提交模板
-
-    script(src='/static/jquery/dist/jquery.js')
-    script(src='/static/index.js')
+        script(src='/static/jquery/dist/jquery.js')
+        script(src='/static/materialize-css/dist/js/materialize.min.js')
+        script(src='/static/index.js')

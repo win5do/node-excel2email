@@ -1,40 +1,28 @@
 let path = require('path');
 let express = require('express');
+let morgan = require('morgan');
 let bodyParser = require('body-parser');
+let session = require('express-session');
 let app = express();
 
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+// app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(session({
+    secret: 'excel2email',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1800000 }
+}));
 
 app.use('/static', express.static(path.join(__dirname, 'node_modules')));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
-
-let excel = require('./controller/read-excel');
-app.get('/', (req, res) => {
-    res.render('index', {title: 'salary', data: excel});
-});
-
-
-app.post('/post-excel', (req, res) => {
-
-
-});
-
-app.post('/post-tmp', (req, res) => {
-    let handleTmp = require('./controller/create-render');
-    let tmp = '你好,{{ $1 }}！你本月的工资共{{ $5 + $4 }}';
-    let render = handleTmp(tmp);
-    for (let i = 1; i < excel.length; i++) {
-        console.log(Date());
-        console.log(typeof excel[i][4]);
-        let content =  render.apply(excel[i]);
-        console.log(content);
-    }
-});
+let router = require('./routes/router');
+app.use(router);
 
 let port = 9999;
 

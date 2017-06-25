@@ -1,6 +1,5 @@
 let createRender = (tmp) => {
-    // 给数组补一位
-    let code = ['let $ = [null, ...this];', 'let r = [];'];
+    let code = ['let $ = this;', 'let r = [];'];
     let reg = /\{\{.*?\}\}/;
     let match;
     // 加一行
@@ -15,10 +14,8 @@ let createRender = (tmp) => {
         code.push('r.push(' + expression + ');');
         tmp = tmp.substring(match.index + match[0].length);
     }
-
+    addLine(tmp); // 将尾段插入
     code.push("return r.join('');");
-
-    console.log(code.join(''));
 
     return new Function(code.join(''));
 };

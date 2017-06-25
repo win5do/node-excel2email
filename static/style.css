@@ -1,0 +1,20 @@
+.p-padding-tb {
+    padding: 100px 0;
+}
+
+.align-right {
+    -ms-text-align-last: right;
+    text-align-last: right;
+}
+
+.hidden-div {
+    display: none;
+}
+
+.label {
+    font-size: 24px;
+}
+
+.preview-content {
+    min-height: 200px;
+}
