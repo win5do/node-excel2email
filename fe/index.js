@@ -58,3 +58,15 @@ $('.send-email').click(() => {
             console.log(res);
         });
 });
+
+$(function () {
+    window.um = UM.getEditor('editor', {
+        UMEDITOR_HOME_URL: '/static/umeditor/',
+        toolbar: [
+            'source | undo redo | bold italic underline strikethrough | forecolor backcolor | removeformat |',
+            'insertorderedlist insertunorderedlist paragraph | fontfamily fontsize',
+            '| justifyleft justifycenter justifyright justifyjustify |',
+            'link image horizontal fullscreen',
+        ]
+    });
+});

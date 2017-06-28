@@ -1,7 +1,6 @@
 html
     head
-        link(rel='stylesheet' href='/static/materialize-css/dist/css/materialize.min.css')
-        link(rel='stylesheet' href='/static/style.css')
+        link(rel='stylesheet' href='/static/main.css')
         title!= title
     body
         .container.p-padding-tb
@@ -24,9 +23,8 @@ html
                     input#title.validate(type="text")
                     label(for='title') 邮件主题
             .row
-                .input-field.col.s12
-                    textarea#content.materialize-textarea
-                    label(for='content') 邮件内容模板
+                .col.s12
+                    #editor
             .row
                 .col.s12.align-right
                     a.waves-effect.waves-light.btn-large.preview-btn 预览
@@ -59,7 +57,10 @@ html
                     .col.s12
                         .align-right
                             a.waves-effect.waves-light.btn-large.send-email 确认发送
-
-        script(src='/static/jquery/dist/jquery.js')
-        script(src='/static/materialize-css/dist/js/materialize.min.js')
-        script(src='/static/index.js')
+        script(src='/static/jquery/dist/jquery.min.js')
+        //script(src='/static/editor.js')
+        script(src='/static/umeditor/third-party/template.min.js')
+        script(src='/static/umeditor/umeditor.config.js')
+        script(src='/static/umeditor/umeditor.min.js')
+        script(src='/static/umeditor/lang/zh-cn/zh-cn.js')
+        script(src='/static/main.js')
