@@ -42,7 +42,7 @@ $('.preview-btn').click(() => {
     $.post('/preview-email',
         {
             title: getVal('#title'),
-            content: getVal('#content')
+            content: um.getContent(),
         },
         (res) => {
             // 展开预览

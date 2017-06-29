@@ -2,7 +2,7 @@
   "name": "salary",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "main": "nodemon main.js",
     "webpack": "webpack -w--color",

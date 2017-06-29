@@ -4,7 +4,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const config = {
     entry: {
-        main: './fe/main.js',
+        app: './fe/app.js',
     },
     output: {
         path: path.resolve(__dirname, 'static'),
