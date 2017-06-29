@@ -1,7 +1,8 @@
 let express = require('express');
 let router = express.Router();
 let multer = require('multer');
-let upload = multer({storage: multer.memoryStorage()});
+let uploadM = multer({storage: multer.memoryStorage()});
+let uploadD = require('../controller/upload');
 
 let excel = require('../controller/read-excel');
 let createRender = require('../controller/create-render');
@@ -11,14 +12,10 @@ router.get('/', (req, res) => {
     res.render('index', {title: 'salary'});
 });
 
-router.post('/post-excel', upload.single('excel'), (req, res) => {
+router.post('/post-excel', uploadM.single('excel'), (req, res) => {
     req.session.excel = new excel(req.file);
     res.json({code: 200, msg: '上传成功'});
 });
-
-function test() {
-    return 2 + 3;
-}
 
 router.post('/preview-email', (req, res) => {
     if (!req.session.excel) {
@@ -77,6 +74,18 @@ router.post('/send-email', (req, res) => {
 
     req.session = null;
     res.send('邮件发送中，信息销毁成功');
+});
+
+
+router.post('/upload-img', uploadD.single('upfile'), (req, res) => {
+    if (req.file.path) {
+        console.log(req.file);
+        let root = process.cwd();
+        let imgPath = req.file.path.replace(root, '').replace(/\\/g, '/');
+        res.send(JSON.stringify({state: 'SUCCESS', url: imgPath}));
+    } else {
+        res.send(JSON.stringify({state: 'ERROR'}));
+    }
 });
 
 module.exports = router;

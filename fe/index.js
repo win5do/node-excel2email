@@ -1,3 +1,19 @@
+$(function () {
+    window.um = UM.getEditor('editor', {
+        UMEDITOR_HOME_URL: '/static/umeditor/',
+        toolbar: [
+            'undo redo | justifyleft justifycenter justifyright justifyjustify |',
+            'bold italic underline strikethrough | forecolor backcolor removeformat |',
+            'paragraph fontfamily fontsize | insertorderedlist insertunorderedlist |',
+            'image horizontal source fullscreen',
+        ],
+        initialFrameWidth: '100%',
+        initialFrameHeight: 300,
+        imageUrl: "/upload-img",
+        imagePath: '', // 返回的就是正确地址
+    });
+});
+
 // 上传文件
 $('#excel').on('change', function () {
     let formData = new FormData();
@@ -57,16 +73,4 @@ $('.send-email').click(() => {
         (res) => {
             console.log(res);
         });
-});
-
-$(function () {
-    window.um = UM.getEditor('editor', {
-        UMEDITOR_HOME_URL: '/static/umeditor/',
-        toolbar: [
-            'source | undo redo | bold italic underline strikethrough | forecolor backcolor | removeformat |',
-            'insertorderedlist insertunorderedlist paragraph | fontfamily fontsize',
-            '| justifyleft justifycenter justifyright justifyjustify |',
-            'link image horizontal fullscreen',
-        ]
-    });
 });

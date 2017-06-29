@@ -1,23 +1,22 @@
 .p-padding-tb {
-    padding: 100px 0;
-}
+  padding: 100px 0; }
 
 .align-right {
-    -ms-text-align-last: right;
-    text-align-last: right;
-}
+  -ms-text-align-last: right;
+  text-align-last: right; }
 
 .hidden-div {
-    display: none;
-}
+  display: none; }
 
 .label {
-    font-size: 24px;
-}
+  font-size: 24px; }
 
 .preview-content {
-    min-height: 300px;
-}.edui-container{
+  min-height: 300px; }
+
+.edui-container input {
+  width: 300px; }
+.edui-container{
     position: relative;
     border: 1px solid #d4d4d4;
     box-shadow: 2px 2px 5px #d3d6da;

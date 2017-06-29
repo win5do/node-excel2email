@@ -4,12 +4,6 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const config = {
     entry: {
-        // editor: [
-        //     './static/umeditor/third-party/template.min.js',
-        //     './static/umeditor/umeditor.config.js',
-        //     './static/umeditor/umeditor.min.js',
-        //     './static/umeditor/lang/zh-cn/zh-cn.js',
-        // ],
         main: './fe/main.js',
     },
     output: {
@@ -27,6 +21,13 @@ const config = {
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: "css-loader"
+                })
+            },
+            {
+                test: /\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader!sass-loader"
                 })
             },
             {
@@ -51,20 +52,19 @@ const config = {
         // new webpack.DefinePlugin({
         //     'process.env.NODE_ENV': JSON.stringify('production'),
         // }),
-        new webpack.ProvidePlugin({
-            // $: 'jquery',
-            // jQuery: 'jquery',
-            // 'window.jQuery': 'jquery',
-            etpl: path.resolve(__dirname, 'static/umeditor/third-party/template.min.js')
-        }),
+
         // new webpack.optimize.UglifyJsPlugin(),
         new ExtractTextPlugin("[name].css"),
-
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: "editor",
-        //     minChunks: Infinity,
-        // }),
     ]
 };
 
 module.exports = config;
+
+
+if (process.env.NODE_ENV == 'prod') {
+    let plugins = [
+        new webpack.optimize.UglifyJsPlugin()
+    ];
+
+    config.plugins = [...config.plugins, ...plugins];
+}

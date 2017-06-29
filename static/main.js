@@ -11832,6 +11832,16 @@ if (true) {
 "use strict";
 
 
+$(function () {
+    window.um = UM.getEditor('editor', {
+        UMEDITOR_HOME_URL: '/static/umeditor/',
+        toolbar: ['undo redo | justifyleft justifycenter justifyright justifyjustify |', 'bold italic underline strikethrough | forecolor backcolor removeformat |', 'paragraph fontfamily fontsize | insertorderedlist insertunorderedlist |', 'image horizontal source fullscreen'],
+        initialFrameWidth: '100%',
+        initialFrameHeight: 300,
+        imageUrl: "/upload-img",
+        imagePath: '' });
+});
+
 $('#excel').on('change', function () {
     var formData = new FormData();
     formData.append('excel', this.files[0]);
@@ -11881,13 +11891,6 @@ $('.send-email').click(function () {
         port: port
     }, function (res) {
         console.log(res);
-    });
-});
-
-$(function () {
-    window.um = UM.getEditor('editor', {
-        UMEDITOR_HOME_URL: '/static/umeditor/',
-        toolbar: ['source | undo redo | bold italic underline strikethrough | forecolor backcolor | removeformat |', 'insertorderedlist insertunorderedlist paragraph | fontfamily fontsize', '| justifyleft justifycenter justifyright justifyjustify |', 'link image horizontal fullscreen']
     });
 });
 
