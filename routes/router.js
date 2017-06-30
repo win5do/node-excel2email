@@ -1,5 +1,6 @@
 let express = require('express');
 let router = express.Router();
+let io = require('../main');
 let multer = require('multer');
 let uploadM = multer({storage: multer.memoryStorage()});
 let uploadD = require('../controller/upload');
@@ -42,44 +43,66 @@ router.post('/preview-email', (req, res) => {
 });
 
 router.post('/send-email', (req, res) => {
-    if (!req.session.excel) {
-        res.json({code: 404, msg: '请重新上传excel文件'});
-        return;
-    }
-
-    let email = req.body.email;
-    let pass = req.body.pass;
-    let host = req.body.host;
-    let port = req.body.port;
-
-    let title = req.session.template.title;
-    let content = req.session.template.content;
-    let render = {
-        title: createRender(title),
-        content: createRender(content)
+    // todo dek after test
+    req.session.excel = {
+        data: [1, 2, 3]
     };
 
-    console.log(host, port, email, pass);
+    // if (!req.session.excel) {
+    //     res.json({code: 404, msg: '请重新上传excel文件'});
+    //     return;
+    // }
 
-    sendEmail.login(host, port, email, pass);
+    // let email = req.body.email;
+    // let pass = req.body.pass;
+    // let host = req.body.host;
+    // let port = req.body.port;
+    //
+    // let title = req.session.template.title;
+    // let content = req.session.template.content;
+    // let render = {
+    //     title: createRender(title),
+    //     content: createRender(content)
+    // };
+    // let s;
+    // io.on('connect', (socket) => {
+    //     s = socket;
+    // });
 
-    req.session.excel.data.forEach((el, i) => {
+    console.log('run');
+
+    // sendEmail.login(host, port, email, pass);
+    let socketConnet = () => {
+        return new Promise((resolve, reject) => {
+            io.on('connect', (socket) => {
+                console.log(socket);
+                resolve(socket);
+            });
+        })
+    };
+
+
+    req.session.excel.data.forEach(async (el, i) => {
         if (i === 0) {
             return;
         }
+        // el = [null, ...el];
+        let s = await socketConnet();
+        let r = await sendEmail.test(el);
+        console.log(s, r);
+        s.send(el);
 
-        el = [null, ...el];
-        sendEmail.send(email, el[2], render.title.apply(el), render.content.apply(el));
+        // socket.send(el[1] + '发送完毕');
+        // sendEmail.send(email, el[2], render.title.apply(el), render.content.apply(el));
     });
-
     req.session = null;
-    res.send('邮件发送中，信息销毁成功');
+    res.json({code: 200, msg: 'socket启动'});
 });
 
 
+// 图片上传
 router.post('/upload-img', uploadD.single('upfile'), (req, res) => {
     if (req.file.path) {
-        console.log(req.file);
         let root = process.cwd();
         let imgPath = req.file.path.replace(root, '').replace(/\\/g, '/');
         res.send(JSON.stringify({state: 'SUCCESS', url: imgPath}));

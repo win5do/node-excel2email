@@ -49,17 +49,25 @@ const config = {
         ]
     },
     plugins: [
-        // new webpack.DefinePlugin({
-        //     'process.env.NODE_ENV': JSON.stringify('production'),
-        // }),
-
-        // new webpack.optimize.UglifyJsPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin("[name].css"),
-    ]
+    ],
+    devServer: {
+        publicPath: '/static/',
+        port: 9000,
+        hot: true,
+        overlay: true,
+        proxy: {
+            '/': {
+                target: "http://localhost:9999",
+                changeOrigin: true,
+                secure: false,
+            },
+        }
+    }
 };
 
 module.exports = config;
-
 
 if (process.env.NODE_ENV == 'prod') {
     let plugins = [

@@ -4,9 +4,10 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "main": "nodemon main.js",
-    "webpack": "webpack -w--color",
-    "build": "cross-env NODE_ENV=prod webpack -p--progess"
+    "be": "cross-env NODE_ENV=prod nodemon main.js",
+    "fe": "cross-env NODE_ENV=prod webpack-dev-server --color",
+    "watch": "webpack -w --color",
+    "build": "cross-env NODE_ENV=prod webpack -p --progess"
   },
   "author": "win5do",
   "license": "ISC",
@@ -23,7 +24,7 @@
     "node-xlsx": "^0.7.4",
     "nodemailer": "^4.0.1",
     "pug": "^2.0.0-rc.2",
-    "quill": "^1.2.6"
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -39,6 +40,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
-    "webpack": "^3.0.0"
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
   }
 }

@@ -26,12 +26,23 @@ exports.send = (user, to, tit, content) => {
         html: content,
     };
 
-// send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
+    return new Promise((resolve, reject) => {
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                reject(error);
+            }
 
-        console.log('Message %s sent: %s', info.messageId, info.response);
+            resolve(info);
+        });
+    });
+};
+
+exports.test = (x) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            x = x * 1000;
+            resolve(x);
+        }, 2000);
     });
 };
