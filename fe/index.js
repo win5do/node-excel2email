@@ -78,9 +78,14 @@ $(() => {
             });
     });
 
-    let socket = io();
+    let socket = io({transports: ['websocket'], upgrade: false});
     socket.on('message', (data) => {
         console.log(data);
+    });
+
+    socket.on('disconnect', function () {
+        console.log('disconnect');
+        socket.close();
     });
 });
 

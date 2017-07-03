@@ -48,6 +48,9 @@ router.post('/send-email', (req, res) => {
         data: [1, 2, 3]
     };
 
+    let socketid =  req.session.socketid;
+
+
     // if (!req.session.excel) {
     //     res.json({code: 404, msg: '请重新上传excel文件'});
     //     return;
@@ -64,37 +67,22 @@ router.post('/send-email', (req, res) => {
     //     title: createRender(title),
     //     content: createRender(content)
     // };
-    // let s;
-    // io.on('connect', (socket) => {
-    //     s = socket;
-    // });
 
-    console.log('run');
 
     // sendEmail.login(host, port, email, pass);
-    let socketConnet = () => {
-        return new Promise((resolve, reject) => {
-            io.on('connect', (socket) => {
-                console.log(socket);
-                resolve(socket);
-            });
-        })
-    };
-
 
     req.session.excel.data.forEach(async (el, i) => {
         if (i === 0) {
             return;
         }
         // el = [null, ...el];
-        let s = await socketConnet();
         let r = await sendEmail.test(el);
-        console.log(s, r);
-        s.send(el);
+        console.log(socketid);
+        io.to(socketid).send(r);
 
-        // socket.send(el[1] + '发送完毕');
         // sendEmail.send(email, el[2], render.title.apply(el), render.content.apply(el));
     });
+    io.to(socketid).send('清空前');
     req.session = null;
     res.json({code: 200, msg: 'socket启动'});
 });

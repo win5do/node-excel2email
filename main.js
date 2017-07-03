@@ -12,15 +12,22 @@ module.exports =  io;
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+let sessionMiddleware = session({
+    secret: 'excel2email',
+    resave: true,
+    saveUninitialized: true,
+    cookie: { maxAge: 1800000 }
+});
+
 // app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(session({
-    secret: 'excel2email',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 1800000 }
-}));
+
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, socket.request.res, next);
+});
+
+app.use(sessionMiddleware);
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -42,5 +49,11 @@ http.listen(port, function () {
 });
 
 io.on('connect', (socket) => {
-    socket.emit('message', '邮件发送中');
+    socket.request.session.socketid = socket.id;
+    socket.request.session.save();
+
+    socket.on('disconnect', (reason) => {
+        console.log(socket.id + '断开了');
+        console.log(reason);
+    });
 });
