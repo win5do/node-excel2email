@@ -14,7 +14,7 @@ app.set('view engine', 'pug');
 
 let sessionMiddleware = session({
     secret: 'excel2email',
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 1800000 }
 });
@@ -53,7 +53,6 @@ io.on('connect', (socket) => {
     socket.request.session.save();
 
     socket.on('disconnect', (reason) => {
-        console.log(socket.id + '断开了');
-        console.log(reason);
+        console.log(socket.id + '断开了 reason:' + reason);
     });
 });

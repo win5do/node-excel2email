@@ -1,4 +1,5 @@
 $(() => {
+    // 配置emditor
     window.um = UM.getEditor('editor', {
         UMEDITOR_HOME_URL: '/static/umeditor/',
         toolbar: [
@@ -19,13 +20,13 @@ $(() => {
         formData.append('excel', this.files[0]);
 
         $.ajax({
-            url: '/post-excel',
+            url: '/upload-excel',
             data: formData,
             processData: false,
             contentType: false,
             type: 'POST',
             success: (res) => {
-                console.log(res);
+                Materialize.toast(res.msg, 3000);
             }
         });
     });
@@ -44,14 +45,24 @@ $(() => {
                 content: um.getContent(),
             },
             (res) => {
-                // 展开预览
-                $('.preview-content').html(res.data);
-                $('.hidden-div').slideDown();
+                if (res.code === 200) {
+                    // 展开预览
+                    $('.preview-content').html(res.data);
+                    $('.hidden-div').slideDown();
+                } else {
+                    Materialize.toast(res.msg, 3000);
+                }
             });
     });
 
+    let sendFlag = false; // 发送flag 房子重复触发
 
     $('.send-email').click(() => {
+        if (sendFlag) {
+            return;
+        }
+
+
         let email = getVal('#email');
         let pass = getVal('#pass');
         let host = getVal('#host');
@@ -62,30 +73,37 @@ $(() => {
         //     return;
         // }
 
-        $.post('/send-email',
-            {
-                email,
-                pass,
-                host,
-                port,
-            },
-            (res) => {
-                if (res.code === 200) {
-                    socket.on('message', function (data) {
-                        console.log(data);
-                    });
-                }
-            });
-    });
+        let socket = io();
+        socket.on('connect', () => {
+            // 禁用按钮 修改颜色
+            sendFlag = true;
+            $('.send-email').css('background-color', '#ccc');
 
-    let socket = io({transports: ['websocket'], upgrade: false});
-    socket.on('message', (data) => {
-        console.log(data);
-    });
+            $.post('/send-email',
+                {
+                    email,
+                    pass,
+                    host,
+                    port,
+                },
+                (res) => {
+                    if (res.code === 200) {
+                        Materialize.toast('邮件发送中', 3000);
+                    } else {
+                        Materialize.toast(res.msg, 3000);
+                        sendFlag = false;
+                        socket.close();
+                    }
+                });
+        });
 
-    socket.on('disconnect', function () {
-        console.log('disconnect');
-        socket.close();
+        socket.on('message', (data) => {
+            Materialize.toast(data, 3000);
+        });
+
+        // socket.on('disconnect', () => {
+        //     console.log('disconnect');
+        //     socket.close();
+        // });
     });
 });
-

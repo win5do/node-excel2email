@@ -60,7 +60,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "65ec39dbe8c4a1244e0d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "efbe5ae3195153bbefc4"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -12491,13 +12491,13 @@ $(function () {
         formData.append('excel', this.files[0]);
 
         $.ajax({
-            url: '/post-excel',
+            url: '/upload-excel',
             data: formData,
             processData: false,
             contentType: false,
             type: 'POST',
             success: function success(res) {
-                console.log(res);
+                Materialize.toast(res.msg, 3000);
             }
         });
     });
@@ -12512,34 +12512,51 @@ $(function () {
             title: getVal('#title'),
             content: um.getContent()
         }, function (res) {
-            $('.preview-content').html(res.data);
-            $('.hidden-div').slideDown();
+            if (res.code === 200) {
+                $('.preview-content').html(res.data);
+                $('.hidden-div').slideDown();
+            } else {
+                Materialize.toast(res.msg, 3000);
+            }
         });
     });
 
+    var sendFlag = false;
+
     $('.send-email').click(function () {
+        if (sendFlag) {
+            return;
+        }
+
         var email = getVal('#email');
         var pass = getVal('#pass');
         var host = getVal('#host');
         var port = getVal('#port');
 
-        $.post('/send-email', {
-            email: email,
-            pass: pass,
-            host: host,
-            port: port
-        }, function (res) {
-            if (res.code === 200) {
-                socket.on('message', function (data) {
-                    console.log(data);
-                });
-            }
-        });
-    });
+        var socket = io();
+        socket.on('connect', function () {
+            sendFlag = true;
+            $('.send-email').css('background-color', '#ccc');
 
-    var socket = io();
-    socket.on('message', function (data) {
-        console.log(data);
+            $.post('/send-email', {
+                email: email,
+                pass: pass,
+                host: host,
+                port: port
+            }, function (res) {
+                if (res.code === 200) {
+                    Materialize.toast('邮件发送中', 3000);
+                } else {
+                    Materialize.toast(res.msg, 3000);
+                    sendFlag = false;
+                    socket.close();
+                }
+            });
+        });
+
+        socket.on('message', function (data) {
+            Materialize.toast(data, 3000);
+        });
     });
 });
 
