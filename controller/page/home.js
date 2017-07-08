@@ -50,45 +50,69 @@ module.exports = {
      * 发送邮件
      */
     sendEmail (req, res) {
-        if (!req.session.excel) {
-            res.json({code: 404, msg: '请重新上传excel文件'});
-            return;
-        }
+        // todo test del
+        /*if (!req.session.excel) {
+         res.json({code: 404, msg: '请重新上传excel文件'});
+         return;
+         }
+
+         let socketid = req.session.socketid;
+         let email = req.body.email;
+         let pass = req.body.pass;
+         let host = req.body.host;
+         let port = req.body.port;
+
+         let title = req.session.template.title;
+         let content = req.session.template.content;
+         let render = {
+         title: createRender(title),
+         content: createRender(content)
+         };
+
+
+         sendEmail.login(host, port, email, pass);
+
+         let dataArr = req.session.excel.data;
+         let sendDefeat = []; // 失败列表*/
 
         let socketid = req.session.socketid;
-        let email = req.body.email;
-        let pass = req.body.pass;
-        let host = req.body.host;
-        let port = req.body.port;
-
-        let title = req.session.template.title;
-        let content = req.session.template.content;
-        let render = {
-            title: createRender(title),
-            content: createRender(content)
-        };
-
-
-        sendEmail.login(host, port, email, pass);
-        let dataArr = req.session.excel.data;
+        let dataArr = [0, 0, 0, 0, 0];
+        let sendDefeat = ['sddasd@qq.com', '4546546@qq.com']; // todo test del
         dataArr.forEach(async (el, i) => {
             if (i === 0) {
                 return;
             }
-            el = [null, ...el];
-            // let info = await sendEmail.test(el);
+            // el = [null, ...el];
+            let info = {rejected: ['sddasd@qq.com']};
 
-            let info = await sendEmail.send(email, el[2], render.title.apply(el), render.content.apply(el));
+            // let info = await sendEmail.send(email, el[2], render.title.apply(el), render.content.apply(el));
 
-            io.to(socketid).send(info);
+            if (info.rejected.length) {
+                // 加入失败列表
+                sendDefeat = [...sendDefeat, ...info.rejected];
+
+            } else {
+                // io.to(socketid).send(el[1] + '发送成功');
+                io.to(socketid).send('发送成功'); // todo del
+            }
 
             if (i === dataArr.length - 1) {
                 req.session = null;
-                io.to(socketid).send('发送完毕，用户数据已销毁');
+                let defeatCount = sendDefeat.length; // 失败数量
+                let successCount = dataArr.length - sendDefeat.length; // 成功数量
+
+                io.to(socketid).send(`发送完毕，成功：${successCount}， 失败: ${defeatCount}`);
+
+                if (defeatCount !== 0) {
+                    io.to(socketid).emit('defeat', sendDefeat);
+                }
+
+                io.sockets.connected[socketid].disconnect(true);
             }
+
         });
 
-        res.json({code: 200, msg: 'socket启动'});
+        res.json({code: 200, msg: '邮件发送中'});
     },
 
     /**

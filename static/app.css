@@ -5,15 +5,15 @@
   -ms-text-align-last: right;
   text-align-last: right; }
 
-.hidden-div {
-  display: none; }
-
 .label {
   font-size: 26px;
   color: #000; }
 
 .preview-content {
   min-height: 300px; }
+
+.defeat {
+  display: none; }
 .edui-container{
     position: relative;
     border: 1px solid #d4d4d4;

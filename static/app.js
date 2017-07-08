@@ -60,7 +60,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "efbe5ae3195153bbefc4"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f1be7f6c6586f0d23582"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -12534,6 +12534,7 @@ $(function () {
         var port = getVal('#port');
 
         var socket = io();
+
         socket.on('connect', function () {
             sendFlag = true;
             $('.send-email').css('background-color', '#ccc');
@@ -12548,6 +12549,7 @@ $(function () {
                     Materialize.toast('邮件发送中', 3000);
                 } else {
                     Materialize.toast(res.msg, 3000);
+                    $('.hidden-div').slideUp();
                     sendFlag = false;
                     socket.close();
                 }
@@ -12556,6 +12558,11 @@ $(function () {
 
         socket.on('message', function (data) {
             Materialize.toast(data, 3000);
+        });
+
+        socket.on('defeat', function (data) {
+            $('.defeat').show();
+            $('.defeat-list').html(data.join('<br>'));
         });
     });
 });

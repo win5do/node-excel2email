@@ -8,7 +8,7 @@
 }
 
 .hidden-div {
-    display: none;
+    //display: none; // todo del
 }
 
 .label {
@@ -18,4 +18,8 @@
 
 .preview-content {
     min-height: 300px;
+}
+
+.defeat {
+    display: none;
 }

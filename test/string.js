@@ -23,4 +23,3 @@ let handleTmp = (tmp) => {
 let func = handleTmp(tmp);
 
 console.log(func.apply(['李二狗', 45465]));
-

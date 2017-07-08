@@ -74,6 +74,7 @@ $(() => {
         // }
 
         let socket = io();
+
         socket.on('connect', () => {
             // 禁用按钮 修改颜色
             sendFlag = true;
@@ -90,7 +91,9 @@ $(() => {
                     if (res.code === 200) {
                         Materialize.toast('邮件发送中', 3000);
                     } else {
+                        // 服务端404 隐藏发送部分
                         Materialize.toast(res.msg, 3000);
+                        $('.hidden-div').slideUp();
                         sendFlag = false;
                         socket.close();
                     }
@@ -101,9 +104,12 @@ $(() => {
             Materialize.toast(data, 3000);
         });
 
-        // socket.on('disconnect', () => {
-        //     console.log('disconnect');
-        //     socket.close();
-        // });
+        /**
+         * 发送失败 插入html
+         */
+        socket.on('defeat', (data) => {
+            $('.defeat').show();
+            $('.defeat-list').html(data.join('<br>'));
+        });
     });
 });
