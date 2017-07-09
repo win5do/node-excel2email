@@ -1,7 +1,10 @@
 let express = require('express');
 let router = express.Router();
 let multer = require('multer');
-let uploadM = multer({storage: multer.memoryStorage()});
+let uploadM = multer({
+    storage: multer.memoryStorage(),
+    limits: {fieldSize: 10000000}
+});
 let uploadD = require('../controller/handler/upload');
 
 let homeController = require('../controller/page/home');

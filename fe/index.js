@@ -1,5 +1,7 @@
 $(() => {
-    // 配置emditor
+    /**
+     * 配置emditor
+     */
     window.um = UM.getEditor('editor', {
         UMEDITOR_HOME_URL: '/static/umeditor/',
         toolbar: [
@@ -14,10 +16,27 @@ $(() => {
         imagePath: '', // 返回的就是正确地址
     });
 
-    // 上传文件
+    $('select').material_select();
+
+    /**
+     * 上传excel
+     */
     $('#excel').on('change', function () {
+        let file = this.files[0];
+
+        if (!file.name.match('.xlsx')) {
+            Materialize.toast('请上传excel文件', 3000);
+            return;
+        }
+        
+        if(file > 10000000) {
+            Materialize.toast('excel文件大小请不要超过10mb', 3000);
+            return;
+        }
+
         let formData = new FormData();
-        formData.append('excel', this.files[0]);
+
+        formData.append('excel', file);
 
         $.ajax({
             url: '/upload-excel',
@@ -31,13 +50,17 @@ $(() => {
         });
     });
 
-    // 取input值
+    /**
+     * 取input value
+     */
     let getVal = (selector) => {
         let val = $(selector).val() || null;
         return val && val.trim();
     };
 
-    // 预览按钮
+    /**
+     * 预览邮件
+     */
     $('.preview-btn').click(() => {
         $.post('/preview-email',
             {
@@ -55,6 +78,17 @@ $(() => {
             });
     });
 
+    /**
+     * 手动填写
+     */
+    $('.manual-input-btn').click(() => {
+        $('.select-smtp').hide();
+        $('.manual-input-smtp').show();
+    });
+
+    /**
+     * 发送邮件
+     */
     let sendFlag = false; // 发送flag 房子重复触发
 
     $('.send-email').click(() => {
@@ -62,12 +96,13 @@ $(() => {
             return;
         }
 
-
         let email = getVal('#email');
         let pass = getVal('#pass');
+        let select = $("#select-smtp").find("option:selected").val();
         let host = getVal('#host');
         let port = getVal('#port');
-
+        host = host ? host : select;
+        port = port ? port : 465;
         // if (!(email && pass && host && port)) {
         //     alert('请完善发件邮箱信息');
         //     return;

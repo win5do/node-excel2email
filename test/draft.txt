@@ -1,6 +1,6 @@
-读取excel文件
-
-获取模板
-
-将每一条填充模板
-
+网易 smtp.163.com 25 465/994
+腾讯 smtp.qq.com 587 465
+腾讯企业邮 smtp.exmail.qq.com  465
+阿里 smtp.aliyun.com 25 465
+gmail smtp.gmail.com 587 465
+outlook smtp-mail.outlook.com 25 465

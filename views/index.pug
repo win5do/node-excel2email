@@ -46,17 +46,31 @@ html
                     .input-field.col.s6
                         input#pass.validate(type="text")
                         label(for='pass') 密码
-                .row
+                .row.select-smtp
+                    .input-field.col.s6
+                        select#select-smtp
+                            option(value="" disabled selected) 请选择smtp服务器
+                            option(value="smtp.qq.com") QQ邮箱——smtp.qq.com
+                            option(value="smtp.163.com") 网易邮箱——smtp.163.com
+                            option(value="smtp.exmail.qq.com") 腾讯企业邮——smtp.exmail.qq.com
+                            option(value="smtp.aliyun.com") 阿里邮箱——smtp.aliyun.com
+                            option(value="smtp.gmail.com") gmail——smtp.gmail.com
+                            option(value="smtp-mail.outlook.com") outlook——smtp-mail.outlook.com
+                        label(for='host') smtp服务器
+
+                    .input-field.col.s6.align-right
+                        .waves-effect.waves-light.btn.manual-input-btn 手动填写
+
+                .row.manual-input-smtp
                     .input-field.col.s6
                         input#host.validate(type="text")
-                        label(for='host') smtp地址
+                        label(for='host') smtp服务器
                     .input-field.col.s6
-                        input#port.validate(type="text")
+                        input#port.validate(type="text" placeholder="默认为465")
                         label(for='port') 端口
                 .row
-                    .col.s12
-                        .align-right
-                            a.waves-effect.waves-light.btn-large.send-email 确认发送
+                    .col.s12.align-right
+                        a.waves-effect.waves-light.btn-large.send-email 确认发送
 
                 .defeat
                     .row
