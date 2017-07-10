@@ -1,12 +1,15 @@
 html
     head
+        link(rel='stylesheet' href='//fonts.googleapis.com/icon?family=Material+Icons')
         link(rel='stylesheet' href='/static/app.css')
         title!= title
     body
         .container.p-padding-tb
             .row
                 .col.s12
-                    .label 上传excel文件
+                    .label
+                        | 上传excel文件
+                        i.material-icons.small.tooltipped.tips(data-position="right" data-delay="50" data-tooltip="上传excel文件，大小不超过10mb，需包含邮箱地址列") live_help
             .row
                 .col.s12
                     .file-field.input-field
@@ -17,7 +20,10 @@ html
                             input.file-path.validate(type='text' placeholder='点击上传excel文件')
             .row
                 .col.s12
-                    .label 创建邮件模板
+                    .label
+                        | 创建邮件模板
+                        i.material-icons.small.tooltipped.tips(data-position="right" data-delay="50"
+                        data-tooltip="邮件模板支持占位符，格式为{{ $n }}，n为列数，$1代表第一列数据，支持简单运算；可上传图片，图片保存一个星期") live_help
             .row
                 .input-field.col.s12
                     input#title.validate(type="text")
@@ -32,13 +38,19 @@ html
             .hidden-div
                 .row
                     .col.s12
-                        .label 邮件预览
+                        .label
+                            | 邮件预览
+                            i.material-icons.small.tooltipped.tips(data-position="right" data-delay="50"
+                            data-tooltip="根据邮件模板，抓取第二行数据生成的邮件预览") live_help
                 .row
                     .col.s12
                         .preview-content
                 .row
                     .col.s12
-                        .label 填写发件邮箱信息
+                        .label
+                            | 填写发件邮箱信息
+                            i.material-icons.small.tooltipped.tips(data-position="right" data-delay="50"
+                            data-tooltip="提供发件人的邮箱信息，以及邮件商提供的smtp服务器地址及端口") live_help
                 .row
                     .input-field.col.s6
                         input#email.validate(type="text")
@@ -75,7 +87,11 @@ html
                 .defeat
                     .row
                         .col.s12
-                            .label 失败列表 请重新尝试
+                            .label
+                                | 失败列表
+                                i.material-icons.small.tooltipped.tips(data-position="right" data-delay="50"
+                                data-tooltip="下列邮箱发送失败，请重新发送") live_help
+
                     .row
                         .col.s12
                             .defeat-list
