@@ -17,7 +17,7 @@ exports.login = (host, port, user, pass) => {
     });
 };
 
-exports.send = (user, to, tit, content) => {
+exports.send = (user, to, tit, content, cb) => {
     // setup email data with unicode symbols
     let mailOptions = {
         from: user, // sender address
@@ -25,24 +25,15 @@ exports.send = (user, to, tit, content) => {
         subject: tit, // Subject line
         html: content,
     };
-
     return new Promise((resolve, reject) => {
         // send mail with defined transport object
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 reject(error);
             }
-
+            console.log(info);
+            cb(info);
             resolve(info);
         });
-    });
-};
-
-exports.test = (x) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            x = x * 1000;
-            resolve(x);
-        }, 2000);
     });
 };

@@ -28,8 +28,8 @@ $(() => {
             Materialize.toast('请上传excel文件', 3000);
             return;
         }
-        
-        if(file > 10000000) {
+
+        if (file > 10000000) {
             Materialize.toast('excel文件大小请不要超过10mb', 3000);
             return;
         }
@@ -101,12 +101,14 @@ $(() => {
         let select = $("#select-smtp").find("option:selected").val();
         let host = getVal('#host');
         let port = getVal('#port');
+        let start = getVal('#start');
         host = host ? host : select;
         port = port ? port : 465;
-        // if (!(email && pass && host && port)) {
-        //     alert('请完善发件邮箱信息');
-        //     return;
-        // }
+        start = start ? start : 2;
+        if (!(email && pass && host && port)) {
+            Materialize.toast('请完善发件邮箱信息', 3000);
+            return;
+        }
 
         let socket = io();
 
@@ -121,6 +123,7 @@ $(() => {
                     pass,
                     host,
                     port,
+                    start
                 },
                 (res) => {
                     if (res.code === 200) {
@@ -147,4 +150,17 @@ $(() => {
             $('.defeat-list').html(data.join('<br>'));
         });
     });
+
+    /**
+     * icon-tips hover
+     */
+    let tipsW = $('.tips').width();
+    $('.icon-tips').hover(
+        function () {
+            $(this).siblings().find('.tips').css({'transform': 'translateX(0)'});
+        },
+        function () {
+            $(this).siblings().find('.tips').css({'transform': 'translateX(-100%)'});
+        },
+    )
 });

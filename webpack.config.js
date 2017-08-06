@@ -52,6 +52,7 @@ const config = {
         new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin("[name].css"),
     ],
+    devtool: "eval-source-map",
     devServer: {
         publicPath: '/static/',
         port: 9000,
@@ -73,6 +74,6 @@ if (process.env.NODE_ENV == 'prod') {
     let plugins = [
         new webpack.optimize.UglifyJsPlugin()
     ];
-
+    config.devtool = false;
     config.plugins = [...config.plugins, ...plugins];
 }

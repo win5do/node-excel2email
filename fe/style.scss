@@ -1,5 +1,5 @@
-.p-padding-tb {
-    padding: 100px 0;
+.main-title {
+    text-align: center;
 }
 
 .align-right {
@@ -8,12 +8,13 @@
 }
 
 .hidden-div {
-    //display: none; // todo del
+    display: none;
 }
 
 .label {
     font-size: 26px;
     color: #000;
+    position: relative;
 }
 
 .preview-content {
@@ -28,7 +29,23 @@
     display: none;
 }
 
-.tips {
+.icon-tips {
     vertical-align: middle;
-    margin-left: 5px;
+}
+
+.tips-wrap {
+    overflow: hidden;
+    position: absolute;
+    left: 200px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tips {
+    transform: translateX(-100%);
+    padding: 10px;
+    font-size: 12px;
+    color: #ffffff;
+    background: #333;
+    transition: all 0.3s ease;
 }

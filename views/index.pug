@@ -4,12 +4,18 @@ html
         link(rel='stylesheet' href='/static/app.css')
         title!= title
     body
-        .container.p-padding-tb
+        .container
+            .row
+                h1.col.s12.main-title Excel2Email
             .row
                 .col.s12
                     .label
                         | 上传excel文件
-                        //i.material-icons.small.tooltipped.tips(data-position="right" data-delay="50" data-tooltip="上传excel文件，大小不超过10mb，需包含邮箱地址列") live_help
+                        i.material-icons.small.icon-tips live_help
+                        .tips-wrap
+                            .tips
+                                p 表格数据请放在sheet1中
+                                p 将收件人作为第一列，作为收件邮箱第二列，数据置于其他列
             .row
                 .col.s12
                     .file-field.input-field
@@ -22,8 +28,17 @@ html
                 .col.s12
                     .label
                         | 创建邮件模板
-                        i.material-icons.small.tooltipped.tips(data-position="right" data-delay="50"
-                        data-tooltip="邮件模板支持占位</br>符，格式为{{ $n }}，n为列数，$1代表第一列数据，支持简单运算；可上传图片，图片保存一个星期") live_help
+                        i.material-icons.small.icon-tips live_help
+                        .tips-wrap
+                            .tips
+                                p 邮件模板支持占位符，格式为{{ $n }}
+                                p 其中n为列数，$1代表第一列数据
+                                p 可上传图片，图片保存一个星期
+            .row
+                .col.s12
+                    | 数据起始行数：
+                    .input-field.inline
+                        input#start(type="number" placeholder="除开表头，默认为2")
             .row
                 .input-field.col.s12
                     input#title.validate(type="text")
@@ -56,7 +71,7 @@ html
                         input#email.validate(type="text")
                         label(for='email') 邮箱
                     .input-field.col.s6
-                        input#pass.validate(type="text")
+                        input#pass.validate(type="password")
                         label(for='pass') 密码
                 .row.select-smtp
                     .input-field.col.s6
