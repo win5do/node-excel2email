@@ -16,7 +16,7 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "express-session": "^1.15.3",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "materialize-css": "^0.99.0",
     "moment": "^2.18.1",
     "morgan": "^1.8.2",
